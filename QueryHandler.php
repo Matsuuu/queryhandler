@@ -37,14 +37,21 @@ class QueryHandler {
         return $this;
     }
 
+    private function unsetTable() {
+        $this->table = null;
+    }
+
     public function getAll() {
         $entities = $this->conn->query("SELECT * FROM " . $this->table, PDO::FETCH_ASSOC);
         if($entities == FALSE) die("Table not found");
+        $this->unsetTable();
         return $entities;
     }
 
     public function deleteEntity($id) {
+        if($this->table == null) die("Table not selected");
         $entities = $this->conn->query("DELETE FROM " . $this->table . " WHERE ID = " . $id);
+        $this->unsetTable();
     }
 
     public function addEntity() {
@@ -76,6 +83,7 @@ class QueryHandler {
             die("Something went wrong. " . $e->getMessage());
         }
         echo $args . " Successfully added into the table " . $this->table . ".";
+        $this->unsetTable();
     }
 
 }

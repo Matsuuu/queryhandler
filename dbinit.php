@@ -16,11 +16,8 @@ echo "-------------------<br>";
 
 $qh = new QueryHandler($conn);
 
-$usertable = $qh->setTable('users');
-//$users = $qh->setTable('users')->getAll();
+$users = $qh->setTable('users')->getAll();
 
-
-$users = $usertable->getAll();
 
 foreach($users as $u) {
     foreach($u as $key => $col) {
@@ -29,7 +26,6 @@ foreach($users as $u) {
     echo "<br> ------------------ <br>";
 }
 
-//$qh->addEntity("yks");
-//$qh->deleteEntity(4);
+
 
 ?>
