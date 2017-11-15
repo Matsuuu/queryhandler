@@ -4,6 +4,7 @@ class QueryHandler {
 
     private $conn;
     public $table;
+    public $colnames;
     public $cols;
 
     function __construct($conn) {
@@ -11,12 +12,16 @@ class QueryHandler {
         $this->dbase = $this->conn->query("SELECT database()")->fetchColumn();
     }
 
+    function checkTable() {
+        return ($this->table !== null) ? false : true;
+    }
+
     function setTable($tablename) {
         try {
             $query = $this->conn->query("SELECT * 
                                 FROM information_schema.tables
                                 WHERE table_schema = '".$this->dbase."' 
-                                    AND table_name = '".$tablename."'
+                                AND table_name = '".$tablename."'
                                 LIMIT 1;")->fetchColumn();
                                 
             if($query == FALSE) {
@@ -29,11 +34,15 @@ class QueryHandler {
         $this->table = $tablename;
 
         $cols = [];
+        $colnames = [];
         foreach($this->conn->query("SHOW COLUMNS FROM " . $tablename, PDO::FETCH_ASSOC) as $col) {
             if($col['Field'] != "ID") array_push($cols, "`" . $col['Field'] . "`");
+            array_push($colnames, $col['Field']);
         }
         
         $this->cols = $cols;
+        $this->colnames = $colnames;
+
         return $this;
     }
 
@@ -48,14 +57,26 @@ class QueryHandler {
         return $entities;
     }
 
+    public function findBy($col, $val) {
+        if($this->checkTable()) die("Table not selected");
+        if(in_array($col, $this->colnames)) {
+            $query = "SELECT * FROM " .$this->table. " WHERE `". $col."` = '". $val . "'";
+            $results = $this->conn->query($query, PDO::FETCH_ASSOC);
+        } else {
+            die("Column with the name " . $col . " not found in table ". $this->table);
+        }
+        if($results->rowCount() == 0) echo "No results found with search";
+        return $results;
+    }
+
     public function deleteEntity($id) {
-        if($this->table == null) die("Table not selected");
+        if($this->checkTable()) die("Table not selected");
         $entities = $this->conn->query("DELETE FROM " . $this->table . " WHERE ID = " . $id);
         $this->unsetTable();
     }
 
     public function addEntity() {
-        if($this->table == null) {
+        if($this->checkTable()) {
             die("No table selected.");
         }
 
@@ -71,6 +92,7 @@ class QueryHandler {
         $insertVals = implode(', ', $insertValArr);
 
         $query = $this->conn->prepare("INSERT INTO " . $this->table . " (" . $cols . ") VALUES (" . $insertVals . ")");
+
         try {
             $execQuery = [];
             $argarr = func_get_args();
@@ -85,6 +107,7 @@ class QueryHandler {
         echo $args . " Successfully added into the table " . $this->table . ".";
         $this->unsetTable();
     }
+
 
 }
 

@@ -26,6 +26,14 @@ foreach($users as $u) {
     echo "<br> ------------------ <br>";
 }
 
+$test = $qh->setTable('users')->findBy('id', '3');
 
 
+foreach($test as $t) {
+    foreach($t as $key => $val) {
+        echo $key . " => " . $val;
+        echo '<br>';
+    }
+    echo '<br>';
+}
 ?>
