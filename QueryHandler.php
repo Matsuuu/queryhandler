@@ -44,23 +44,38 @@ class QueryHandler {
     }
 
     public function deleteEntity($id) {
-        $entities = $this->conn->execute("DELETE FROM " . $this->table . " WHERE ID = " . $id);
+        $entities = $this->conn->query("DELETE FROM " . $this->table . " WHERE ID = " . $id);
     }
 
     public function addEntity() {
         if($this->table == null) {
-
+            die("No table selected.");
         }
-        if(count(func_get_args()) != count($this->cols)); die("Column count did not match. Table " . $this->table . " columns are: " . implode(', ', $this->cols) . ". You entered: " . implode(',',func_get_args()));
+
+        if(count(func_get_args()) != count($this->cols)) die("Column count did not match. Table " . $this->table . " columns are: " . implode(', ', $this->cols) . ". You entered: " . implode(',',func_get_args()));
         $args = implode(", ", func_get_args());
         $cols = implode(", ", $this->cols);
-        $query = $this->conn->prepare("INSERT INTO " . $this->table . " (" . $cols . ") VALUES (" . $args . ")");
+
+        $insertValArr = $this->cols;
+        foreach($insertValArr as &$val) {
+            $val = str_replace('`', '', $val);
+            $val = ':' . $val;
+        }
+        $insertVals = implode(', ', $insertValArr);
+
+        $query = $this->conn->prepare("INSERT INTO " . $this->table . " (" . $cols . ") VALUES (" . $insertVals . ")");
         try {
-            $query->execute();
+            $execQuery = [];
+            $argarr = func_get_args();
+            foreach($insertValArr as $val) {
+                $execQuery[$val] = current($argarr);
+                next($argarr);
+            }
+            $query->execute($execQuery);
         } catch(PDOException $e) {
             die("Something went wrong. " . $e->getMessage());
         }
-        return $args . " Successfully added into the table " . $this->table . ".";
+        echo $args . " Successfully added into the table " . $this->table . ".";
     }
 
 }

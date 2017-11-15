@@ -30,5 +30,6 @@ foreach($users as $u) {
 }
 
 //$qh->addEntity("yks");
+//$qh->deleteEntity(4);
 
 ?>
