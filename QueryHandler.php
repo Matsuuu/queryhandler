@@ -36,7 +36,7 @@ class QueryHandler {
         $cols = [];
         $colnames = [];
         foreach($this->conn->query("SHOW COLUMNS FROM " . $tablename, PDO::FETCH_ASSOC) as $col) {
-            if($col['Field'] != "ID") array_push($cols, "`" . $col['Field'] . "`");
+            if($col['Field'] != "ID" && $col['Field'] != "id") array_push($cols, "`" . $col['Field'] . "`");
             array_push($colnames, $col['Field']);
         }
         
