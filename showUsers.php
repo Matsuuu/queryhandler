@@ -15,3 +15,11 @@ foreach($users as $user) {
     echo "<br>==============<br>";
 }
 ?>
+
+<form action="entities/user.php" method="POST">
+    <input type="hidden" name="function" value="addUser">
+    
+    <input type="text" name="name" placeholder="Input a name">
+
+    <input type="submit" value="Save">
+</form>
