@@ -61,14 +61,11 @@ class QueryHandler {
         $class = ucfirst($this->table);
         $entityObjects = [];
         foreach($entities as $entity) {
-            //$initString = "";
             $en = new $class();
             foreach($entity as $key => $col) {
-                //$initString .= "'" . $col . "',";
                 $setter = 'set' . ucfirst($key);
                 $en->$setter($col);
             }
-            //array_push($entityObjects, new $class(rtrim($initString, ',')));
             array_push($entityObjects, $en);
         }
 

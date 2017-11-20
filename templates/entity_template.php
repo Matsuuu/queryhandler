@@ -6,6 +6,7 @@ $tablename = 'template';
 $qh = new QueryHandler($conn);
 class User {
 
+    // Just add here the database columns you want to be generated. Refer to datatypes.php for datatypes
     protected $id       = PKINT;
 
     function initialize() { 
@@ -16,6 +17,7 @@ class User {
         
     }
 
+    // Set up setters and getters for your columns
     public function getId() {
         return $this->id;
     }
@@ -27,6 +29,8 @@ class User {
     }
 
 }
+
+// Below this point we have the functional code for handling adding and deleting entities
 
 if($_POST) {
     $_POST['function']($_POST);   
