@@ -6,6 +6,9 @@ ini_set('display_errors', 1);
 
 $classes = [];
 
+echo "Initializing database \n";
+echo "====================== \n \n";
+
 foreach($entities as $en) {
     array_push($classes, ucfirst(str_replace('.php','',$en)));
 }
@@ -16,11 +19,15 @@ foreach($classes as $c) {
     
     if(checkIfTableExists($c)) {
         updateTable($c, $vars);
+        echo "Table " . $c . " updated \n";
     } else {
         createTable($c, $vars);
+        echo "Table " . $c . " created \n";
     }
 
 }
+
+echo "\n\n All done!";
 
 function checkIfTableExists($c) {
     global $conn;
@@ -74,8 +81,6 @@ function updateTable($c, $vars) {
                     SELECT " . $columns . " FROM ". $copy);
     // Drop temp table
     $conn->query("DROP TABLE " . $copy);
-
-    echo "Table exists";
 }
 
 function getColumns($table) {

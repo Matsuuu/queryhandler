@@ -18,9 +18,7 @@ class User {
     function __construct() {
         global $tablename;
         global $qh;
-
-        //$this->name = $name;
-
+        
     }
 
     public function getId() {
