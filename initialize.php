@@ -4,14 +4,8 @@ include('dbinit.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$classes = [];
-
 echo "Initializing database \n";
 echo "====================== \n \n";
-
-foreach($entities as $en) {
-    array_push($classes, ucfirst(str_replace('.php','',$en)));
-}
 
 foreach($classes as $c) {
     $class = new $c();

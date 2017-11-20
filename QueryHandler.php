@@ -53,11 +53,27 @@ class QueryHandler {
     }
 
     public function getAll() {
+        global $classes;
+
         $entities = $this->conn->query("SELECT * FROM " . $this->table, PDO::FETCH_ASSOC);
         if($entities == FALSE) die("Table not found");
 
+        $class = ucfirst($this->table);
+        $entityObjects = [];
+        foreach($entities as $entity) {
+            //$initString = "";
+            $en = new $class();
+            foreach($entity as $key => $col) {
+                //$initString .= "'" . $col . "',";
+                $setter = 'set' . ucfirst($key);
+                $en->$setter($col);
+            }
+            //array_push($entityObjects, new $class(rtrim($initString, ',')));
+            array_push($entityObjects, $en);
+        }
+
         $this->unsetTable();
-        return $entities;
+        return $entityObjects;
     }
 
     public function findBy($col, $val) {
@@ -74,17 +90,17 @@ class QueryHandler {
 
     public function deleteEntity($id) {
         if($this->checkTable()) die("Table not selected");
-        $entities = $this->conn->query("DELETE FROM " . $this->table . " WHERE ID = " . $id);
+        $this->conn->query("DELETE FROM " . $this->table . " WHERE ID = " . $id);
         $this->unsetTable();
     }
 
-    public function addEntity() {
+    public function addEntity($params) {
         if($this->checkTable()) {
             die("No table selected.");
         }
 
-        if(count(func_get_args()) != count($this->cols)) die("Column count did not match. Table " . $this->table . " columns are: " . implode(', ', $this->cols) . ". You entered: " . implode(',',func_get_args()));
-        $args = implode(", ", func_get_args());
+        if(count($params) != count($this->cols)) die("Column count did not match. Table " . $this->table . " columns are: " . implode(', ', $this->cols) . ". You entered: " . implode(',',$params));
+        $args = implode(", ", $params);
         $cols = implode(", ", $this->cols);
 
         $insertValArr = $this->cols;
@@ -95,13 +111,12 @@ class QueryHandler {
         $insertVals = implode(', ', $insertValArr);
 
         $query = $this->conn->prepare("INSERT INTO " . $this->table . " (" . $cols . ") VALUES (" . $insertVals . ")");
-
+        
         try {
             $execQuery = [];
-            $argarr = func_get_args();
-            foreach($insertValArr as $val) {
-                $execQuery[$val] = current($argarr);
-                next($argarr);
+            $argarr = $params;
+            for($i = 0; $i < count($insertValArr); $i++) {
+                $execQuery[$insertValArr[$i]] = $argarr[$i];
             }
             $query->execute($execQuery);
         } catch(PDOException $e) {

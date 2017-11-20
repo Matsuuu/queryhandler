@@ -16,13 +16,19 @@ class User {
     }
 
     function __construct() {
-        global $tablename;
-        global $qh;
-        
+        foreach(get_object_vars($this) as $key => $var) {
+            $this->$key = null;
+        }
     }
 
     public function getId() {
         return $this->id;
+    }
+
+    public function setId($id) {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName() {
@@ -31,6 +37,26 @@ class User {
 
     public function setName($name) {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPhone() {
+        return $this->phone;
+    }
+
+    public function setPhone($phone) {
+        $this->phone = $phone;
 
         return $this;
     }
@@ -45,8 +71,24 @@ if($_POST) {
 // POST functions
 
 function addUser($post) {
-    new User($post['name']);
+    global $qh;
+    global $tablename;
+
+    unset($post["function"]);
+
+    $params = [];
+    foreach($post as $param) {
+        array_push($params, $param);
+    }
+
+    $qh->setTable($tablename)->addEntity($params);
 }
 
+function deleteUser($post) {
+    global $qh;
+    global $tablename;
+    unset($post['function']);
+    $qh->setTable($tablename)->deleteEntity(current($post));
+}
 
 ?>
