@@ -70,7 +70,7 @@ if($_POST) {
 
 // POST functions
 
-function addUser($post) {
+function addEntity($post) {
     global $qh;
     global $tablename;
 
@@ -84,7 +84,7 @@ function addUser($post) {
     $qh->setTable($tablename)->addEntity($params);
 }
 
-function deleteUser($post) {
+function deleteEntity($post) {
     global $qh;
     global $tablename;
     unset($post['function']);

@@ -20,7 +20,7 @@ foreach($users as $user) {
 
 
     <form action="<?php $userent ?>" method="POST">
-        <input type="hidden" name="function" value="deleteUser">
+        <input type="hidden" name="function" value="deleteEntity">
         <input type="hidden" name="userid" value="<?php echo $user->getId() ?>">
         <input type="submit" value="Delete">
     </form>    
@@ -30,8 +30,8 @@ foreach($users as $user) {
 }
 ?>
 
-<form action="entities/user.php" method="POST">
-    <input type="hidden" name="function" value="addUser">
+<form action="<?php $userent ?>" method="POST">
+    <input type="hidden" name="function" value="addEntity">
     
     <input type="text" name="name" placeholder="Input a name"><br>
     <input type="text" name="email" placeholder="Input an email"><br>
