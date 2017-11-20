@@ -1,4 +1,6 @@
 <?php
+include_once('dbclasses.php');
+include_once('entities.php');
 
 class QueryHandler {
 
@@ -53,6 +55,7 @@ class QueryHandler {
     public function getAll() {
         $entities = $this->conn->query("SELECT * FROM " . $this->table, PDO::FETCH_ASSOC);
         if($entities == FALSE) die("Table not found");
+
         $this->unsetTable();
         return $entities;
     }

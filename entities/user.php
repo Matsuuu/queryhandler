@@ -1,24 +1,27 @@
 <?php
-require(__DIR__.'/../dbinit.php');
-require_once(__DIR__.'/../QueryHandler.php');
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+require_once(__DIR__.'/../dbclasses.php');
+include(__DIR__.'/../datatypes.php');
 
-
-$tablename = 'users';
+$tablename = 'user';
 $qh = new QueryHandler($conn);
 class User {
-    private $id;
-    protected $name;
 
-    function __construct($name) {
+    protected $id       = PKINT;
+    protected $name     = Varchar;
+    protected $email    = Varchar;
+    protected $phone    = Number;
+
+    function initialize() { 
+        return get_object_vars($this);
+    }
+
+    function __construct() {
         global $tablename;
         global $qh;
 
-        $this->name = $name;
+        //$this->name = $name;
 
-        $qh->setTable($tablename)->addEntity($name);
-    }    
+    }
 
     public function getId() {
         return $this->id;
