@@ -1,5 +1,6 @@
 <?php
 include_once(__DIR__.'/../dbclasses.php');
+include_once(__DIR__.'/../datatypes.php');
 
 $tablename = 'template';
 $qh = new QueryHandler($conn);
@@ -7,8 +8,11 @@ class Template {
 
     // Just add here the database columns you want to be generated. Refer to datatypes.php for datatypes
     protected $id       = PKINT;
+    //protected $user_id = FK;
 
     function initialize() { 
+        //This is how you add a foreign key
+        //$this->user_id = createForeignKey("user_id", "user", "id");
         return get_object_vars($this);
     }
 
@@ -35,30 +39,6 @@ if($_POST) {
     $_POST['function']($_POST);   
     header("Location: {$_SERVER['HTTP_REFERER']}");
     exit;
-}
-
-
-// POST functions
-
-function addEntity($post) {
-    global $qh;
-    global $tablename;
-
-    unset($post["function"]);
-
-    $params = [];
-    foreach($post as $param) {
-        array_push($params, $param);
-    }
-
-    $qh->setTable($tablename)->addEntity($params);
-}
-
-function deleteEntity($post) {
-    global $qh;
-    global $tablename;
-    unset($post['function']);
-    $qh->setTable($tablename)->deleteEntity(current($post));
 }
 
 ?>
