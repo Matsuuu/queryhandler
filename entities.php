@@ -11,7 +11,7 @@ global $classes;
 $classes = [];
 
 foreach($entities as $en) {
-    array_push($classes, ucfirst(str_replace('.php','',$en)));
+    array_push($classes, ucfirst(str_replace('.php','',substr($en, 2))));
 }
 
 ?>

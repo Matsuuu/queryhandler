@@ -1,8 +1,9 @@
 <?php
 
 // DB handling
-include('dbinit.php');
-include('QueryHandler.php');
+include_once('dbinit.php');
+include_once('QueryHandler.php');
+include_once('entitymanager.php');
 
 
 ?>

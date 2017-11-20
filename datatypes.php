@@ -8,6 +8,7 @@ $longtext   = "LONGTEXT";
 $timestamp  = "TIMESTAMP";
 $date       = "DATE";
 $datetime   = "DATETIME";
+$fk         = "FOREIGN KEY";
 
 
 define("PKINT", $pk);
@@ -18,5 +19,10 @@ define("Longtext", $longtext);
 define("Timestamp", $timestamp);
 define("Date", $date);
 define("Datetime", $datetime);
+define("FK", $fk);
+
+function createForeignKey($key, $reftable, $refcol) {
+    return " INT(11), FOREIGN KEY (".$key.") REFERENCES " . $reftable . "(" . $refcol . ")";
+}
 
 ?>

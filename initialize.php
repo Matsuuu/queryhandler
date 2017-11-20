@@ -1,11 +1,13 @@
 <?php
-require_once('entities.php');
-include('dbinit.php');
+include_once('entities.php');
+include_once('dbclasses.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 echo "Initializing database \n";
 echo "====================== \n \n";
+
+global $qh;
 
 foreach($classes as $c) {
     $class = new $c();
@@ -49,7 +51,6 @@ function createTable($c, $vars) {
             }
             $i++;
         }
-        //echo $query;
     $conn->query($query);
 }
 
