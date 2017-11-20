@@ -2,27 +2,27 @@
 
 // POST functions
 
-function addEntity($post) {
-    global $qh;
-    global $tablename;
+    function addEntity($post) {
+        global $qh;
+        global $tablename;
 
-    unset($post["function"]);
+        unset($post["function"]);
 
-    $params = [];
-    foreach($post as $param) {
-        array_push($params, $param);
+        $params = [];
+        foreach($post as $param) {
+            array_push($params, $param);
+        }
+        echo $tablename;
+
+        $qh->setTable($tablename)->addEntity($params);
     }
-    echo $tablename;
 
-    $qh->setTable($tablename)->addEntity($params);
-}
-
-function deleteEntity($post) {
-    global $qh;
-    global $tablename;
-    unset($post['function']);
-    $qh->setTable($tablename)->deleteEntity(current($post));
-}
+    function deleteEntity($post) {
+        global $qh;
+        global $tablename;
+        unset($post['function']);
+        $qh->setTable($tablename)->deleteEntity(current($post));
+    }
 
 
 

@@ -1,6 +1,7 @@
 <?php
 include_once(__DIR__.'/../dbclasses.php');
 include_once(__DIR__.'/../datatypes.php');
+include_once(__DIR__.'/../entitymanager.php');
 
 $tablename = 'template';
 $qh = new QueryHandler($conn);

@@ -1,6 +1,7 @@
 <?php
 include_once(__DIR__.'/../dbclasses.php');
 include_once(__DIR__.'/../datatypes.php');
+include_once(__DIR__.'/../entitymanager.php');
 
 $tablename = 'user';
 $qh = new QueryHandler($conn);
@@ -61,7 +62,7 @@ class User {
 }
 
 if($_POST) {
-    $_POST['function']($_POST);   
+    $_POST['function']($_POST);
     header("Location: {$_SERVER['HTTP_REFERER']}");
     exit;
 }
