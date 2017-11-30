@@ -5,14 +5,19 @@ include_once(__DIR__.'/../entitymanager.php');
 
 $tablename = 'customer';
 $qh = new QueryHandler($conn);
+
 class Customer {
 
     // Just add here the database columns you want to be generated. Refer to datatypes.php for datatypes
-    protected $id       = PKINT;
-    protected $user_id  = FK;
+    protected $id;
+    protected $user_id;
 
     function initialize() { 
-        $this->user_id = createForeignKey("user_id", "user", "id");
+        $dt = new DataTypes();
+
+        $this->id       = $dt->pk;
+        $this->user_id  = $dt->foreignKey("user_id", "user", "id");
+
         return get_object_vars($this);
     }
 

@@ -12,7 +12,6 @@
         foreach($post as $param) {
             array_push($params, $param);
         }
-        echo $tablename;
 
         $qh->setTable($tablename)->addEntity($params);
     }

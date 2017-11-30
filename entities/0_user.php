@@ -5,14 +5,22 @@ include_once(__DIR__.'/../entitymanager.php');
 
 $tablename = 'user';
 $qh = new QueryHandler($conn);
+
 class User {
 
-    protected $id       = PKINT;
-    protected $name     = Varchar;
-    protected $email    = Varchar;
-    protected $phone    = Number;
+    protected $id;
+    protected $name;
+    protected $email;
+    protected $phone;
 
     function initialize() { 
+        $dt = new DataTypes();
+
+        $this->id       = $dt->pk;
+        $this->name     = $dt->varChar(255);
+        $this->email    = $dt->varChar(255);
+        $this->phone    = $dt->int(11); 
+
         return get_object_vars($this);
     }
 
