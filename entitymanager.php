@@ -1,4 +1,6 @@
 <?php
+global $storedQueries;
+$storedQueries = [];
 
 // POST functions
 
@@ -23,6 +25,13 @@
         $qh->setTable($tablename)->deleteEntity(current($post));
     }
 
+    function set($col, $val) {
+        global $qh;
+        global $tablename;
 
+        $this->$col = $val;
+
+        // TODO: Prepare a statement by dynamic values which you insert into stored queries for execution
+    }
 
 ?>
