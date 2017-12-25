@@ -5,9 +5,12 @@ include_once(__DIR__.'/../entitymanager.php');
 
 $qh = new QueryHandler($conn);
 
+$tablename = 'customer';
+
 class Customer {
 
     public $tablename = 'customer';
+    
     // Just add here the database columns you want to be generated. Refer to datatypes.php for datatypes
     protected $id;
     protected $user_id;
