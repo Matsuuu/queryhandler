@@ -12,16 +12,18 @@ $users = $qh->setTable('user')->getAll();
 
 foreach($users as $user) {
 
-    echo "ID: " . $user->getId() . "<br>";
-    echo "Name: " . $user->getName() . "<br>";
-    echo "Email: " . $user->getEmail() . "<br>";
-    echo "Phone: " . $user->getPhone() . "<br>";
+    echo "ID: " . $user->get('id') . "<br>";
+    echo "Name: " . $user->get('name') . "<br>";
+    echo "Email: " . $user->get('email') . "<br>";
+    echo "Phone: " . $user->get('phone') . "<br>";
+    
+    
     ?>
 
 
     <form action="<?php $userent ?>" method="POST">
         <input type="hidden" name="function" value="deleteEntity">
-        <input type="hidden" name="userid" value="<?php echo $user->getId() ?>">
+        <input type="hidden" name="userid" value="<?php echo $user->get('id') ?>">
         <input type="submit" value="Delete">
     </form>    
 
@@ -39,3 +41,4 @@ foreach($users as $user) {
 
     <input type="submit" value="Save">
 </form>
+

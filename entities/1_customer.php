@@ -3,11 +3,11 @@ include_once(__DIR__.'/../dbclasses.php');
 include_once(__DIR__.'/../datatypes.php');
 include_once(__DIR__.'/../entitymanager.php');
 
-$tablename = 'customer';
 $qh = new QueryHandler($conn);
 
 class Customer {
 
+    public $tablename = 'customer';
     // Just add here the database columns you want to be generated. Refer to datatypes.php for datatypes
     protected $id;
     protected $user_id;
@@ -25,15 +25,12 @@ class Customer {
         
     }
 
-    // Set up setters and getters for your columns
-    public function getId() {
-        return $this->id;
+    public function set($col, $val) {
+        $this->$col = $val;
     }
 
-    public function setId($id) {
-        $this->id = $id;
-
-        return $this;
+    public function get($col) {
+        return getEntityValue($this, $this->tablename, $col);
     }
 
 }
@@ -41,7 +38,7 @@ class Customer {
 // Below this point we have the functional code for handling adding and deleting entities
 
 if($_POST) {
-    $_POST['function']($_POST);   
+    $_POST['function']($tablename, $_POST);   
     header("Location: {$_SERVER['HTTP_REFERER']}");
     exit;
 }

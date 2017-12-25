@@ -4,9 +4,8 @@ $storedQueries = [];
 
 // POST functions
 
-    function addEntity($post) {
+    function addEntity($tablename, $post) {
         global $qh;
-        global $tablename;
 
         unset($post["function"]);
 
@@ -18,20 +17,16 @@ $storedQueries = [];
         $qh->setTable($tablename)->addEntity($params);
     }
 
-    function deleteEntity($post) {
+    function deleteEntity($tablename, $post) {
         global $qh;
-        global $tablename;
         unset($post['function']);
         $qh->setTable($tablename)->deleteEntity(current($post));
     }
 
-    function set($col, $val) {
-        global $qh;
-        global $tablename;
+    function getEntityValue($user, $tablename, $col) {
+        global $conn;
 
-        $this->$col = $val;
-
-        // TODO: Prepare a statement by dynamic values which you insert into stored queries for execution
+        return $conn->query("SELECT " . $col . " FROM " . $tablename . " WHERE id = " . $user->id, PDO::FETCH_ASSOC)->fetchColumn();
     }
 
 ?>

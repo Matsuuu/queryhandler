@@ -63,8 +63,9 @@ class QueryHandler {
         foreach($entities as $entity) {
             $en = new $class();
             foreach($entity as $key => $col) {
-                $setter = 'set' . ucfirst($key);
-                $en->$setter($col);
+                //$setter = 'set' . ucfirst($key);
+                //$en->$setter($col);
+                $en->set($key, $col);
             }
             array_push($entityObjects, $en);
         }
